@@ -1,0 +1,22 @@
+{
+  "SDXL 1024 Square": [
+    1024,
+    1024
+  ],
+  "SDXL Portrait 832x1216": [
+    832,
+    1216
+  ],
+  "SDXL Landscape 1216x832": [
+    1216,
+    832
+  ],
+  "SDXL Portrait 896x1152": [
+    896,
+    1152
+  ],
+  "SDXL Landscape 1152x896": [
+    1152,
+    896
+  ]
+}

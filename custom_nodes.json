@@ -1,0 +1,15 @@
+{
+  "name": "CornmeisterNL PowerPack",
+  "author": "CornmeisterNL",
+  "description": "⚡ Power-user focused ComfyUI nodes: prompt building, LoRA control, resolution presets, clean image saving and metadata handling.",
+  "reference": "https://github.com/Cornmeister/ComfyUI-CornmeisterNL-PowerPack",
+  "tags": [
+    "prompt",
+    "lora",
+    "powerpack",
+    "metadata",
+    "civitai",
+    "save",
+    "resolution"
+  ]
+}
