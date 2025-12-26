@@ -4,6 +4,9 @@ import logging
 import folder_paths
 import comfy.sd
 import comfy.utils
+import folder_paths
+import comfy.utils
+
 
 WEB_DIRECTORY = "./js"
 
@@ -411,15 +414,23 @@ class PowerSaveImage:
         return re.sub(r"\[time\((.*?)\)\]", repl, text or "")
 
     def _resolve_path(self, path_str: str) -> str:
-        import os
-        p = self._expand_time_tokens((path_str or "").strip())
-        if not p:
-            p = "output"
-        # Laat absolute paden met driveletter intact (Y:\ etc)
-        if not os.path.isabs(p):
-            p = os.path.join(os.getcwd(), p)
-        os.makedirs(p, exist_ok=True)
-        return p
+        """
+        Manager-safe path resolver
+        - always anchored to ComfyUI output directory
+        - prevents path traversal
+        - expands [time(...)] tokens
+        """
+        base_output = folder_paths.get_output_directory()
+    
+        sub = self._expand_time_tokens((path_str or "").strip())
+        if not sub:
+            return base_output
+    
+        # sanitize & join safely
+        full_path = comfy.utils.safe_join(base_output, sub)
+        os.makedirs(full_path, exist_ok=True)
+        return full_path
+    
 
     def save(
         self,
