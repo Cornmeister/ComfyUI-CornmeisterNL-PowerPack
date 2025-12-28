@@ -7,7 +7,7 @@ import comfy.sd
 WEB_DIRECTORY = "./js"
 
 LORA_CFG = "LORA_CFG"
-POWERPACK_VERSION = "1.0.2"
+POWERPACK_VERSION = "1.0.3"
 
 _logger = logging.getLogger("CornmeisterNL Powerpack")
 
@@ -177,7 +177,8 @@ def _cmnl_load_res_presets():
                 for k, v in data.items():
                     if isinstance(k, str) and isinstance(v, (list, tuple)) and len(v) == 2:
                         try:
-                            w = int(v[0]); h = int(v[1])
+                            w = int(v[0])
+                            h = int(v[1])
                             if w > 0 and h > 0:
                                 presets[k] = (w, h)
                         except Exception:
