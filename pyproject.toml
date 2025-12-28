@@ -1,0 +1,13 @@
+[project]
+name = "cornmeisternl-powerpack"
+version = "1.0.2"
+description = "⚡ PowerPack for ComfyUI by CornmeisterNL"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.urls]
+Repository = "https://github.com/Cornmeister/ComfyUI-CornmeisterNL-PowerPack"
+
+[tool.comfy]
+PublisherId = "cornmeisternl"
+DisplayName = "⚡ CornmeisterNL PowerPack"
