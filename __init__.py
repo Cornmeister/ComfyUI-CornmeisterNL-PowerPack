@@ -3,15 +3,11 @@
 import logging
 import folder_paths
 import comfy.sd
-import comfy.utils
-import folder_paths
-import comfy.utils
-
 
 WEB_DIRECTORY = "./js"
 
 LORA_CFG = "LORA_CFG"
-POWERPACK_VERSION = "1.0.0"
+POWERPACK_VERSION = "1.0.2"
 
 _logger = logging.getLogger("CornmeisterNL Powerpack")
 
@@ -415,21 +411,33 @@ class PowerSaveImage:
 
     def _resolve_path(self, path_str: str) -> str:
         """
-        Manager-safe path resolver
-        - always anchored to ComfyUI output directory
-        - prevents path traversal
-        - expands [time(...)] tokens
+        Manager-safe path resolver:
+        - always inside ComfyUI output dir
+        - expands [time(...)]
+        - blocks path traversal
         """
+        import os
+    
         base_output = folder_paths.get_output_directory()
     
-        sub = self._expand_time_tokens((path_str or "").strip())
+        sub = self._expand_time_tokens((path_str or "").strip()).replace("\\", "/")
         if not sub:
             return base_output
     
-        # sanitize & join safely
-        full_path = comfy.utils.safe_join(base_output, sub)
+        # prevent absolute paths & traversal
+        while sub.startswith("/"):
+            sub = sub[1:]
+        if ".." in sub:
+            raise ValueError("Invalid output path")
+    
+        full_path = os.path.normpath(os.path.join(base_output, sub))
+    
+        if not full_path.startswith(os.path.abspath(base_output)):
+            raise ValueError("Invalid output path")
+    
         os.makedirs(full_path, exist_ok=True)
         return full_path
+
     
 
     def save(
